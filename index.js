@@ -12,15 +12,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        const database = client.db("carMechanic");
-        const mechanicCollection = database.collection("services");
+        const database = client.db("tourismWebsite");
+        const packageCollection = database.collection("packages");
 
         // GET METHOD FOR LOADING DATA
-        app.get('/mechanics', async (req, res) => {
-            const cursor = mechanicCollection.find({});
-            const mechanics = await cursor.toArray();
-            res.send(mechanics);
-            console.log("hitted mechanics");
+        app.get('/packages', async (req, res) => {
+            const cursor = packageCollection.find({});
+            const packages = await cursor.toArray();
+            res.send(packages);
+            console.log("hitted packages");
+        })
+
+        // POST METHOD FOR SENDING DATA TO DB
+        app.post('/packages', async (req, res) => {
+            const data = req.body;
+            const result = await packageCollection.insertOne(data);
+            res.json(result);
         })
     }
     finally {
