@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const ObjectId = require('mongodb').ObjectId();
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 const app = express();
@@ -21,6 +22,15 @@ async function run() {
             const packages = await cursor.toArray();
             res.send(packages);
             console.log("hitted packages");
+        })
+
+        // GET METHOD FOR LOADING SINGLE DATA
+        app.get('/order/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await packageCollection.findOne(query);
+            console.log(result);
+            res.json(result);
         })
 
         // POST METHOD FOR SENDING DATA TO DB
