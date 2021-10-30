@@ -15,6 +15,7 @@ async function run() {
         await client.connect();
         const database = client.db("tourismWebsite");
         const packageCollection = database.collection("packages");
+        const orderCollection = database.collection("orders");
 
         // GET METHOD FOR LOADING DATA
         app.get('/packages', async (req, res) => {
@@ -33,10 +34,34 @@ async function run() {
             res.json(result);
         })
 
+        // GET METHOD FOR FINDING ORDERED PRODUCT ID
+        app.get('/myOrders', async (req, res) => {
+            const user = req.query.user;
+            const query = { email: user };
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            const products = orders.map(order => order.productId);
+
+            res.json(products);
+        })
+
+        // GET METHOD FOR FINDING PRODUCTS THAT IS ORDERED
+        app.get('/myOrders/order', async (req, res) => {
+            const id = req.query.id;
+            console.log(id);
+        })
+
         // POST METHOD FOR SENDING DATA TO DB
         app.post('/packages', async (req, res) => {
             const data = req.body;
             const result = await packageCollection.insertOne(data);
+            res.json(result);
+        })
+
+        // POST METHOD FOR SENDING ORDER TO DB
+        app.post('/orders', async (req, res) => {
+            const request = req.body;
+            const result = await orderCollection.insertOne(request);
             res.json(result);
         })
     }
