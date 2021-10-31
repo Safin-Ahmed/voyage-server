@@ -7,7 +7,6 @@ This project is all about Tour and Travel Website which is developed by using ME
 ## Here are some of the features of this website given below: 
 
 ### Fully Dynamic Website 
-### Responsive Website 
 ### Backend and Database Integrated Website 
 ### Firebase Authentication Integrated Website 
 ### Single Page Web Application 
