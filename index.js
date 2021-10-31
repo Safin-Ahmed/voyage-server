@@ -40,15 +40,8 @@ async function run() {
             const query = { email: user };
             const cursor = orderCollection.find(query);
             const orders = await cursor.toArray();
-            const products = orders.map(order => order.productId);
 
-            res.json(products);
-        })
-
-        // GET METHOD FOR FINDING PRODUCTS THAT IS ORDERED
-        app.get('/myOrders/order', async (req, res) => {
-            const id = req.query.id;
-            console.log(id);
+            res.json(orders);
         })
 
         // POST METHOD FOR SENDING DATA TO DB
