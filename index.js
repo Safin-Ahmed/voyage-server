@@ -77,10 +77,13 @@ async function run() {
         // PUT METHOD FOR UPDATING STATUS
         app.put('/orders', async (req, res) => {
             const id = parseInt(req.query.id);
+            const message = req.query.msg;
+            console.log(message);
+            console.log(id);
             const filter = { orderId: id };
             const updateDoc = {
                 $set: {
-                    status: 'Approved'
+                    status: message
                 }
             }
             const result = await orderCollection.updateOne(filter, updateDoc);
