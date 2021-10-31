@@ -57,6 +57,15 @@ async function run() {
             const result = await orderCollection.insertOne(request);
             res.json(result);
         })
+
+        // DELETE METHOD FOR DELETING ORDERS 
+        app.delete('/orders', async (req, res) => {
+            const id = req.query.id;
+            const numberId = parseInt(id);
+            const query = { orderId: numberId };
+            const result = await orderCollection.deleteOne(query);
+            res.json(result);
+        })
     }
     finally {
         // await client.close();
