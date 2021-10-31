@@ -44,6 +44,13 @@ async function run() {
             res.json(orders);
         })
 
+        //GET METHOD FOR SHOWING ALL ORDERS 
+        app.get('/orders', async (req, res) => {
+            const cursor = orderCollection.find({});
+            const orders = await cursor.toArray();
+            res.json(orders);
+        })
+
         // POST METHOD FOR SENDING DATA TO DB
         app.post('/packages', async (req, res) => {
             const data = req.body;
@@ -64,6 +71,19 @@ async function run() {
             const numberId = parseInt(id);
             const query = { orderId: numberId };
             const result = await orderCollection.deleteOne(query);
+            res.json(result);
+        })
+
+        // PUT METHOD FOR UPDATING STATUS
+        app.put('/orders', async (req, res) => {
+            const id = parseInt(req.query.id);
+            const filter = { orderId: id };
+            const updateDoc = {
+                $set: {
+                    status: 'Approved'
+                }
+            }
+            const result = await orderCollection.updateOne(filter, updateDoc);
             res.json(result);
         })
     }
